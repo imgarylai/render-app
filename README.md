@@ -1,6 +1,6 @@
 # Render App
 
-Express.js web service with TypeScript.
+Express.js web service with TypeScript using MVC architecture.
 
 ## Setup
 
@@ -26,32 +26,50 @@ Server runs at http://localhost:3000
 
 ## API Endpoints
 
-- `GET /` - Root endpoint
-- `GET /health` - Health check
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | / | Root endpoint |
+| GET | /health | Health check |
+| GET | /items | List all items |
+| GET | /items/:id | Get item by ID |
+| POST | /items | Create item |
+| PUT | /items/:id | Update item |
+| DELETE | /items/:id | Delete item |
 
 ## Project Structure
 
 ```
 src/
-├── index.ts       # App entry point
-├── logger.ts      # Pino logger instance
-└── routes/
-    └── index.ts   # Route definitions
+├── index.ts                  # App entry point
+├── controllers/              # Request handlers
+│   ├── health.controller.ts
+│   ├── home.controller.ts
+│   └── item.controller.ts
+├── models/                   # Data models
+│   └── item.model.ts
+├── middleware/               # Express middleware
+│   └── error.middleware.ts
+└── routes/                   # Route definitions
+    ├── index.ts
+    └── item.routes.ts
 ```
 
-## Logging
+## Example Requests
 
-Uses [pino](https://github.com/pinojs/pino) for structured logging.
+```bash
+# Create item
+curl -X POST http://localhost:3000/items \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Test","description":"A test item"}'
 
-```typescript
-import logger from './logger';
+# List items
+curl http://localhost:3000/items
 
-logger.info('message');
-logger.warn('warning');
-logger.error('error');
-logger.debug('debug');
+# Update item
+curl -X PUT http://localhost:3000/items/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Updated"}'
+
+# Delete item
+curl -X DELETE http://localhost:3000/items/1
 ```
-
-**Environment variables:**
-- `LOG_LEVEL` - `debug`, `info`, `warn`, `error` (default: `info`)
-- `NODE_ENV=production` - Outputs JSON instead of pretty format
