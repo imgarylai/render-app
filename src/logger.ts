@@ -1,11 +1,14 @@
-import pino from 'pino';
+const timestamp = () => new Date().toISOString().replace('T', ' ').slice(0, 19);
 
-const logger = pino({
-  level: process.env.LOG_LEVEL || 'info',
-  transport:
-    process.env.NODE_ENV !== 'production'
-      ? { target: 'pino-pretty', options: { colorize: true } }
-      : undefined,
-});
+const logger = {
+  info: (msg: string) => console.log(`[${timestamp()}] ${msg}`),
+  warn: (msg: string) => console.warn(`[${timestamp()}] WARN: ${msg}`),
+  error: (msg: string | Error) => console.error(`[${timestamp()}] ERROR:`, msg),
+  debug: (msg: string) => {
+    if (process.env.LOG_LEVEL === 'debug') {
+      console.log(`[${timestamp()}] DEBUG: ${msg}`);
+    }
+  },
+};
 
 export default logger;

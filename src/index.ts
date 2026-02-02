@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import pinoHttp from 'pino-http';
+import morgan from 'morgan';
 import logger from './logger';
 import routes from './routes';
 
@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(pinoHttp({ logger }));
+app.use(morgan('dev'));
 
 // Routes
 app.use('/', routes);
