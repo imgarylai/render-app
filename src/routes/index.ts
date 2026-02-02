@@ -1,14 +1,12 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
+import { getHome } from '../controllers/home.controller';
+import { getHealth } from '../controllers/health.controller';
+import itemRoutes from './item.routes';
 
 const router = Router();
 
-// Root endpoint
-router.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Welcome to the API' });
-});
-
-// Add more routes here as needed
-// router.use('/users', require('./users'));
-// router.use('/items', require('./items'));
+router.get('/', getHome);
+router.get('/health', getHealth);
+router.use('/items', itemRoutes);
 
 export default router;
