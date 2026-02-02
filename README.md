@@ -34,6 +34,24 @@ Server runs at http://localhost:3000
 ```
 src/
 ├── index.ts       # App entry point
+├── logger.ts      # Pino logger instance
 └── routes/
     └── index.ts   # Route definitions
 ```
+
+## Logging
+
+Uses [pino](https://github.com/pinojs/pino) for structured logging.
+
+```typescript
+import logger from './logger';
+
+logger.info('message');
+logger.warn('warning');
+logger.error('error');
+logger.debug('debug');
+```
+
+**Environment variables:**
+- `LOG_LEVEL` - `debug`, `info`, `warn`, `error` (default: `info`)
+- `NODE_ENV=production` - Outputs JSON instead of pretty format

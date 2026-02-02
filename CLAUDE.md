@@ -7,6 +7,7 @@ Express.js web service built with TypeScript.
 - Node.js with Express 5
 - TypeScript
 - tsx for development (hot reload)
+- pino for logging (pino-http for request logs)
 
 ## Commands
 
@@ -17,6 +18,7 @@ Express.js web service built with TypeScript.
 ## Project Structure
 
 - `src/index.ts` - Main Express app with middleware and error handling
+- `src/logger.ts` - Pino logger instance (pretty in dev, JSON in prod)
 - `src/routes/` - Route modules (add new routes here)
 - `dist/` - Compiled output (gitignored)
 
@@ -25,6 +27,7 @@ Express.js web service built with TypeScript.
 - Use TypeScript for all source files
 - Place routes in `src/routes/` and import in `src/routes/index.ts`
 - Use async/await for async operations
+- Use `logger` from `./logger` instead of `console.log`
 - Error responses: `{ error: "message" }`
 - Success responses: JSON objects
 

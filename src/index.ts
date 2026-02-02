@@ -1,4 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
+import pinoHttp from 'pino-http';
+import logger from './logger';
 import routes from './routes';
 
 const app = express();
@@ -7,12 +9,7 @@ const PORT = process.env.PORT || 3000;
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Request logging
-app.use((req: Request, res: Response, next: NextFunction) => {
-  console.log(`${new Date().toISOString()} ${req.method} ${req.path}`);
-  next();
-});
+app.use(pinoHttp({ logger }));
 
 // Routes
 app.use('/', routes);
@@ -33,14 +30,14 @@ interface HttpError extends Error {
 }
 
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
-  console.error(err.stack);
+  logger.error(err);
   res.status(err.status || 500).json({
     error: err.message || 'Internal server error'
   });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  logger.info(`Server running on http://localhost:${PORT}`);
 });
 
 export default app;
